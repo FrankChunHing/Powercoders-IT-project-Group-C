@@ -7,11 +7,12 @@ const categoryCode = {
 let fetchedData;
 let num = 0;
 let timePassed = 0;
-let score = {
-    "player1":0,
-    "player2":0,
-}
 let timelimit = 4;
+
+const players = [
+    {"name":'Player1', 'score':0},
+    {"name":'Player2', 'score':0}
+]
 
 
 
@@ -96,3 +97,20 @@ const timer = setInterval(() => {
         renderTime.textContent = 'Times up';
     }}
     ,1000)
+
+
+const renderName = document.getElementById('player')
+
+function onChangeName(event, index) {
+    players[index].name = event.target.value;
+    renderName.textContent = players.map(player => player.name).join(', ');
+}
+
+const renderInputName = document.getElementById('inputName');
+
+renderInputName.innerHTML = players.map((player, index) => (
+    `
+    <label for=${player.name}> Change your Name ${player.name} </label>
+    <input type="text" id="${player.name}" placeholder="Change your name here" oninput="onChangeName(event, ${index})">
+    `
+)).join('');
