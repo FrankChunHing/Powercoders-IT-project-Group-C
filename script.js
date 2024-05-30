@@ -7,8 +7,7 @@ const categoryCode = {
 
 let fetchedData;
 let num = 0;
-let timePassed = 0;
-let timelimit = 4;
+let timelimit = 120;
 
 const players = [
   { name: "Player1", score: 0 },
@@ -107,10 +106,10 @@ const formatTime = (time) => {
 };
 
 const timer = setInterval(() => {
-  timePassed = timePassed + 1;
-  console.log(timePassed);
-  renderTime.textContent = formatTime(timePassed);
-  if (timePassed === timelimit) {
+timelimit = timelimit - 1;
+  console.log(timelimit);
+  renderTime.textContent = formatTime(timelimit);
+  if (timelimit === 0) {
     clearInterval(timer);
     renderTime.textContent = "Times up";
   }
