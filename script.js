@@ -51,16 +51,14 @@ function renderCharactor(str){
 }
 
 
-
-
-
 function renderHTML(questionNum) {
     const renderData = fetchedData[questionNum];
     const root = document.getElementById('root');
+    
     root.innerHTML = `
         <div>
-            <h3>${renderData.question}</h3>
-            ${renderData.answers.map(answer => `<p>${answer}</p>`).join('')}
+            <h3 class="question">${renderData.question}</h3>
+            ${renderData.answers.map(answer => `<p class="answers">${answer}</p>`).join('')}
             <button onclick="renderNextQuestion()">Next</button>
         </div>
     `;
@@ -114,3 +112,20 @@ renderInputName.innerHTML = players.map((player, index) => (
     <input type="text" id="${player.name}" placeholder="Change your name here" oninput="onChangeName(event, ${index})">
     `
 )).join('');
+
+
+// This part is to hide home page after entering quiz .Taha
+document.addEventListener('DOMContentLoaded', () => {
+    const homeContainer = document.querySelector('.home-container');
+    const quizContainer = document.querySelector('.quiz-container');
+    const playerSpan = document.getElementById('player');
+
+    document.querySelectorAll('.home-container button').forEach(button => {
+      button.addEventListener('click', () => {
+        const playerName = button.textContent;
+        playerSpan.textContent = `You are ${playerName}`;
+        homeContainer.style.display = 'none';
+        quizContainer.style.display = 'flex';
+      });
+    });
+}); 
