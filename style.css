@@ -1,114 +1,127 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-:root{
-    --primary-color: #EEF7FF;
-    --secondary-color: #CDE8E5;
-    --third-color: #7AB2B2;
-    --fourth-color: #4D869C;
+:root {
+  --primary-color: #eef7ff;
+  --secondary-color: #cde8e5;
+  --third-color: #7ab2b2;
+  --fourth-color: #4d869c;
 }
 
-html, body{
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
-main{
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom, var(--third-color), var(--secondary-color), var(--fourth-color));
-    color: var(--fourth-color);
+main {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    var(--third-color),
+    var(--secondary-color),
+    var(--fourth-color)
+  );
+  color: var(--fourth-color);
 }
 
-.home-container{
-    width: 53rem;
-    height: 37rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    border-radius: 30px;
-    background-color: var(--primary-color);
+.home-container {
+  width: 53rem;
+  height: 37rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 30px;
+  background-color: var(--primary-color);
 }
-
 
 button {
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 16px;
-    width: 10rem;
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    background: var(--third-color);
-    color: var(--primary-color);
-    font-weight: bold;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  width: 10rem;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background: var(--third-color);
+  color: var(--primary-color);
+  font-weight: bold;
 }
-button:hover{
-    background: var(--fourth-color);
-}
-   
-.quiz-container {
-    display: none; 
-    width: 53rem;
-    height: 33rem;
-    border: 2px solid var(--third-color);
-    border-radius: 30px;
-    background-color: var(--primary-color);
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;    
+button:hover {
+  background: var(--fourth-color);
 }
 
-#inputName{
-    font-size: 1.3rem;
-    font-weight: bold;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    padding: 5px;
-    margin: 11px;
+.quiz-container {
+  display: none;
+  width: 53rem;
+  height: 33rem;
+  border: 2px solid var(--third-color);
+  border-radius: 30px;
+  background-color: var(--primary-color);
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#inputName {
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: 5px;
+  margin: 11px;
 }
 
 #Player1,
 #Player2 {
-    padding: 5px;
-    margin: 11px;
-    border: var(--fourth-color) solid;
-    border-radius: 11px;
+  padding: 5px;
+  margin: 11px;
+  border: var(--fourth-color) solid;
+  border-radius: 11px;
 }
 
-#root{
-    padding: 11px;
-    margin: 13px;
+#root {
+  padding: 11px;
+  margin: 13px;
 }
 
-#player{
-    font-size: 1.5rem;
-    font-weight: bold;
+#player {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-#timer{
-    border: var(--fourth-color) solid 3px;
-    padding: 5px;
-    border-radius: 9px;
-    background: var(--fourth-color);
-    color: var(--primary-color);
+#timer {
+  border: var(--fourth-color) solid 3px;
+  padding: 5px;
+  border-radius: 9px;
+  background: var(--fourth-color);
+  color: var(--primary-color);
 }
 
-.question{
-    font-size: 1.3rem;
-    padding: 13px;
+.question {
+  font-size: 1.3rem;
+  padding: 13px;
 }
 
-.answers{
-    padding: 5px;
-    padding-left: 13px;
+.answers {
+  padding: 5px;
+  padding-left: 13px;
+}
+
+.correct {
+  background: green;
+}
+
+.incorrect {
+  background: red;
 }
