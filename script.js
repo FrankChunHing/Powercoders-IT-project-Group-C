@@ -50,6 +50,7 @@ function renderCharactor(str) {
     .replace(/&amp;/g, "&");
 }
 
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -58,20 +59,16 @@ function shuffleArray(array) {
 }
 
 function renderHTML(questionNum) {
-  const renderData = fetchedData[questionNum];
-  const root = document.getElementById("root");
-  shuffleArray(renderData.answers);
-  root.innerHTML = `
-    <div>
-    <h3>${renderData.question}</h3>
-    ${renderData.answers
-      .map(
-        (answer) =>
-          `<p class="answer" onclick="checkAnswer(event, '${answer}', ${questionNum})">${answer}</p>`
-      )
-      .join("")}
-    <button onclick="renderNextQuestion()">Next</button>
-</div>
+    const renderData = fetchedData[questionNum];
+    const root = document.getElementById('root');
+    shuffleArray(renderData.answers);
+  
+    root.innerHTML = `
+        <div>
+            <h3 class="question">${renderData.question}</h3>
+            ${renderData.answers.map(answer => `<p class="answers">${answer}</p>`).join('')}
+            <button onclick="renderNextQuestion()">Next</button>
+        </div>
     `;
 }
 
@@ -128,12 +125,29 @@ function onChangeName(event, index) {
 
 const renderInputName = document.getElementById("inputName");
 
-renderInputName.innerHTML = players
-  .map(
+renderInputName.innerHTML = players.map(
     (player, index) =>
+        `
+      <label for=${player.name}> Change your Name ${player.name} </label>
+      <input type="text" id="${player.name}" placeholder="Change your name here" oninput="onChangeName(event, ${index})">
       `
-    <label for=${player.name}> Change your Name ${player.name} </label>
-    <input type="text" id="${player.name}" placeholder="Change your name here" oninput="onChangeName(event, ${index})">
-    `
-  )
-  .join("");
+
+  ).join("");
+
+
+// This part is to hide home page after entering quiz .Taha
+document.addEventListener('DOMContentLoaded', () => {
+    const homeContainer = document.querySelector('.home-container');
+    const quizContainer = document.querySelector('.quiz-container');
+    const playerSpan = document.getElementById('player');
+
+    document.querySelectorAll('.home-container button').forEach(button => {
+      button.addEventListener('click', () => {
+        const playerName = button.textContent;
+        playerSpan.textContent = `You are ${playerName}`;
+        homeContainer.style.display = 'none';
+        quizContainer.style.display = 'flex';
+      });
+    });
+}); 
+
