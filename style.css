@@ -102,6 +102,8 @@ button:hover {
 
 #root {
   min-width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 
 #player {
