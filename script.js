@@ -7,8 +7,15 @@ const categoryCode = {
 
 let fetchedData;
 let num = 0;
-let timelimit = 120;
+const timelimit = 60;
+let countTime
 let currentPlayerIndex = 0;
+const renderTime = document.getElementById("timer");
+const root = document.getElementById("root");
+const playerSpan = document.getElementById("player");
+const player1 = document.querySelector(".player-1")
+const player2 = document.querySelector(".player-2")
+
 
 const players = [
   { name: "Player1", score: 0 },
@@ -60,7 +67,6 @@ function shuffleArray(array) {
 function renderHTML(questionNum) {
 
   const renderData = fetchedData[questionNum];
-  const root = document.getElementById("root");
   shuffleArray(renderData.answers);
 
   root.innerHTML = `
@@ -91,7 +97,7 @@ function checkAnswer(event, selectedAnswer, questionNum) {
     selectedElement.classList.add("incorrect");
     console.log("incorrect")
   }
-  const answerElements = document.querySelectorAll(".answers");
+  const answerElements = document.querySelectorAll(".answer");
   answerElements.forEach((answer) => {
     if (answer.textContent === renderData.correct_answer) {
       answer.classList.add("correct");
@@ -105,14 +111,12 @@ function renderNextQuestion() {
     num++;
     renderHTML(num);
   } else {
-    document.getElementById(
-      "root"
-    ).innerHTML = `<button onclick="showScore()">Show Score</button>`;
+    root.innerHTML = `<button onclick="showScore()">Show Score</button>`;
   }
 }
 
 function showScore() {
-  const root = document.getElementById("root");
+  clearInterval(timer);
   root.innerHTML = `<h2>${players[currentPlayerIndex].name}'s Score: ${players[currentPlayerIndex].score}</h2>`;
   if (currentPlayerIndex < players.length - 1) {
     root.innerHTML += `<button onclick="nextPlayer()">Next Player</button>`;
@@ -123,13 +127,15 @@ function showScore() {
 
 function nextPlayer() {
   currentPlayerIndex++;
+  startTimer();
   num = 0;
   players[currentPlayerIndex].score = 0;
   fetchingData();
 }
 
 function showFinalScores() {
-  const root = document.getElementById("root");
+  renderTime.style.display = "none";
+  playerSpan.style.display = "none";
   const winner =
     players[0].score > players[1].score
       ? players[0].name
@@ -145,7 +151,7 @@ function showFinalScores() {
 
 fetchingData();
 
-const renderTime = document.getElementById("timer");
+
 
 const formatTime = (time) => {
   const minutes = Math.floor(time / 60);
@@ -153,21 +159,29 @@ const formatTime = (time) => {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
-const timer = setInterval(() => {
-  timelimit = timelimit - 1;
-  console.log(timelimit);
-  renderTime.textContent = formatTime(timelimit);
-  if (timelimit === 0) {
-    clearInterval(timer);
-    renderTime.textContent = "Times up";
-  }
-}, 1000);
+function startTimer() {
+  clearInterval(timer); // Clear any existing interval to avoid multiple intervals running
+  countTime = timelimit;
+  timer = setInterval(() => {
+    countTime -= 1;
+    console.log(countTime);
+    renderTime.textContent = formatTime(countTime);
+    if (countTime === 0) {
+      renderTime.textContent = "Times up";
+      if (num < fetchedData.length - 1) {
+        showScore();
+      }
+    }
+  }, 1000);
+}
 
 const renderName = document.getElementById("player");
 
 function onChangeName(event, index) {
   players[index].name = event.target.value;
   renderName.textContent = players.map((player) => player.name).join(", ");
+  player1.textContent = players[0].name;
+  player2.textContent = players[1].name
 }
 
 const renderInputName = document.getElementById("inputName");
@@ -186,7 +200,7 @@ renderInputName.innerHTML = players
 document.addEventListener("DOMContentLoaded", () => {
   const homeContainer = document.querySelector(".home-container");
   const quizContainer = document.querySelector(".quiz-container");
-  const playerSpan = document.getElementById("player");
+  
 
   document.querySelectorAll(".home-container button").forEach((button) => {
     button.addEventListener("click", () => {
@@ -194,6 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
       playerSpan.textContent = `You are ${playerName}`;
       homeContainer.style.display = "none";
       quizContainer.style.display = "flex";
+      startTimer()
     });
   });
 });
