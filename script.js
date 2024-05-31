@@ -63,7 +63,7 @@ function renderHTML(questionNum) {
   shuffleArray(renderData.answers);
 
   root.innerHTML = `
-    <div>
+    <div class="answer-content">
     <h3 class="question">${renderData.question}</h3>
     ${renderData.answers
       .map(
@@ -71,7 +71,7 @@ function renderHTML(questionNum) {
           `<p class="answer" onclick="checkAnswer(event, '${answer}', ${questionNum})">${answer}</p>`
       )
       .join("")}
-    <button onclick="renderNextQuestion()">Next</button>
+    <button onclick="renderNextQuestion()" id="next-button">Next</button>
 </div>
     `;
 }
@@ -170,11 +170,20 @@ renderInputName.innerHTML = players
   .map(
     (player, index) =>
       `
+      <div>
       <label for=${player.name}> Change your Name ${player.name} </label>
       <input type="text" id="${player.name}" placeholder="Change your name here" oninput="onChangeName(event, ${index})">
+      </div>
       `
   )
   .join("");
+
+// I connected to input name with the buttons in the index -Taha
+function onChangeName(event, index) {
+  const newName = event.target.value;
+  const playerButton = document.getElementById(`player${index + 1}`);
+  playerButton.textContent = newName !== "" ? newName : `Player ${index + 1}`;
+}
 
 // This part is to hide home page after entering quiz .Taha
 document.addEventListener("DOMContentLoaded", () => {
