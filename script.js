@@ -64,7 +64,7 @@ function renderHTML(questionNum) {
 
   root.innerHTML = `
     <div>
-    <h3>${renderData.question}</h3>
+    <h3 class="question">${renderData.question}</h3>
     ${renderData.answers
       .map(
         (answer) =>
