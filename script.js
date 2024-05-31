@@ -58,6 +58,7 @@ function shuffleArray(array) {
 }
 
 function renderHTML(questionNum) {
+
   const renderData = fetchedData[questionNum];
   const root = document.getElementById("root");
   shuffleArray(renderData.answers);
@@ -73,19 +74,24 @@ function renderHTML(questionNum) {
       .join("")}
     <button onclick="renderNextQuestion()">Next</button>
 </div>
+
     `;
 }
 
 function checkAnswer(event, selectedAnswer, questionNum) {
   const renderData = fetchedData[questionNum];
   const selectedElement = event.target;
+  console.log("selectedElement", selectedElement)
   if (selectedAnswer === renderData.correct_answer) {
     selectedElement.classList.add("correct");
+
     players[currentPlayerIndex].score++;
+
   } else {
     selectedElement.classList.add("incorrect");
+    console.log("incorrect")
   }
-  const answerElements = document.querySelectorAll(".answer");
+  const answerElements = document.querySelectorAll(".answers");
   answerElements.forEach((answer) => {
     if (answer.textContent === renderData.correct_answer) {
       answer.classList.add("correct");
