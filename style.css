@@ -54,6 +54,7 @@ button {
   background: var(--third-color);
   color: var(--primary-color);
   font-weight: bold;
+  cursor: pointer;
 }
 button:hover {
   background: var(--fourth-color);
@@ -113,9 +114,14 @@ button:hover {
   padding: 13px;
 }
 
-.answers {
+.answer {
   padding: 5px;
   padding-left: 13px;
+  margin: 5px;
+  border: solid var(--fourth-color);
+  background: var(--secondary-color);
+  cursor: pointer;
+  border-radius: 11px;
 }
 
 .correct {
