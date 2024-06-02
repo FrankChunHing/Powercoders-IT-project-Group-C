@@ -70,7 +70,7 @@ function renderHTML(questionNum) {
   shuffleArray(renderData.answers);
 
   root.innerHTML = `
-    <div>
+    <div class="answer-content">
     <h3 class="question">${renderData.question}</h3>
     ${renderData.answers
       .map(
@@ -190,8 +190,10 @@ renderInputName.innerHTML = players
   .map(
     (player, index) =>
       `
+      <div>
       <label for=${player.name}> Change your Name ${player.name} </label>
       <input type="text" id="${player.name}" placeholder="Change your name here" oninput="onChangeName(event, ${index})">
+      </div>
       `
   )
   .join("");
