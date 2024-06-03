@@ -1,8 +1,8 @@
 const categoryCode = {
   "General Knowledge": 9,
-  Computer: 18,
+  "Computer": 18,
   "Science and Nature": 17,
-  Gadgets: 30,
+  "Gadgets": 30,
 };
 
 let fetchedData;
@@ -130,6 +130,7 @@ function nextPlayer() {
   startTimer();
   num = 0;
   players[currentPlayerIndex].score = 0;
+  playerSpan.textContent = `You are ${players[currentPlayerIndex].name}`
   fetchingData();
 }
 
