@@ -1,21 +1,21 @@
 const categoryCode = {
-  "Computer": 18,
-  "GeneralKnowledge": 9,
-  "ScienceandNature": 17,
-  "Gadgets": 30,
+  Computer: 18,
+  GeneralKnowledge: 9,
+  ScienceandNature: 17,
+  Gadgets: 30,
 };
 
 let fetchedData;
 let num = 0;
 const timelimit = 60;
-let countTime
+let countTime;
 let currentPlayerIndex = 0;
 const renderTime = document.getElementById("timer");
 const root = document.getElementById("root");
 const playerSpan = document.getElementById("player");
-const player1 = document.querySelector(".player-1")
-const player2 = document.querySelector(".player-2")
-let code = 18
+const player1 = document.querySelector(".player-1");
+const player2 = document.querySelector(".player-2");
+let code = 18;
 
 const players = [
   { name: "Player1", score: 0 },
@@ -45,32 +45,30 @@ async function fetchingData() {
     renderHTML(num);
   } catch (error) {
     console.error("Cannot connect to API server :", error);
-    backupFetch()
+    backupFetch();
   }
 }
 
-async function backupFetch(){
-  console.log("firing backup")
+async function backupFetch() {
+  console.log("firing backup");
   try {
-    const res = await fetch(`https://the-trivia-api.com/v2/questions`)
+    const res = await fetch(`https://the-trivia-api.com/v2/questions`);
     const data = await res.json();
-    console.log(data)
+    console.log(data);
     const handledData = data.map((item, index) => {
-    return {
-      id: index,
-      question: item.question.text,
-      answers: [...item.incorrectAnswers, item.correctAnswer],
-      correct_answer: item.correctAnswer,
-    }
-    
-  })
-  fetchedData = handledData;
-  renderHTML(num);
-} catch(error) {
-  console.error("Cannot connect to the backup API server :", error);
+      return {
+        id: index,
+        question: item.question.text,
+        answers: [...item.incorrectAnswers, item.correctAnswer],
+        correct_answer: item.correctAnswer,
+      };
+    });
+    fetchedData = handledData;
+    renderHTML(num);
+  } catch (error) {
+    console.error("Cannot connect to the backup API server :", error);
+  }
 }
-}
-
 
 function renderCharactor(str) {
   return str
@@ -89,7 +87,6 @@ function shuffleArray(array) {
 }
 
 function renderHTML(questionNum) {
-
   const renderData = fetchedData[questionNum];
   shuffleArray(renderData.answers);
 
@@ -111,15 +108,14 @@ function renderHTML(questionNum) {
 function checkAnswer(event, selectedAnswer, questionNum) {
   const renderData = fetchedData[questionNum];
   const selectedElement = event.target;
-  console.log("selectedElement", selectedElement)
+  console.log("selectedElement", selectedElement);
   if (selectedAnswer === renderData.correct_answer) {
     selectedElement.classList.add("correct");
 
     players[currentPlayerIndex].score++;
-
   } else {
     selectedElement.classList.add("incorrect");
-    console.log("incorrect")
+    console.log("incorrect");
   }
   const answerElements = document.querySelectorAll(".answer");
   answerElements.forEach((answer) => {
@@ -154,7 +150,7 @@ function nextPlayer() {
   startTimer();
   num = 0;
   players[currentPlayerIndex].score = 0;
-  playerSpan.textContent = `You are ${players[currentPlayerIndex].name}`
+  playerSpan.textContent = `You are ${players[currentPlayerIndex].name}`;
   fetchingData();
 }
 
@@ -171,12 +167,27 @@ function showFinalScores() {
     <h2>${players[0].name}'s Score: ${players[0].score}</h2>
     <h2>${players[1].name}'s Score: ${players[1].score}</h2>
     <h2>Winner: ${winner}</h2>
+    <button onclick="playAgain()">Play Again</button>
+    <button onclick="finishGame()">Finish</button>
   `;
 }
 
+function playAgain() {
+  num = 0;
+  currentPlayerIndex = 0;
+  players.forEach((player) => (player.score = 0));
+  playerSpan.style.display = "block";
+  renderTime.style.display = "block";
+  playerSpan.textContent = `You are ${players[currentPlayerIndex].name}`;
+  startTimer();
+  fetchingData();
+}
+
+function finishGame() {
+  root.innerHTML = `<h2>Thank you for playing!</h2>`;
+}
+
 fetchingData();
-
-
 
 const formatTime = (time) => {
   const minutes = Math.floor(time / 60);
@@ -200,15 +211,14 @@ function startTimer() {
   }, 1000);
 }
 
-
 const renderInputQuizTopic = document.getElementById("inputTopic");
-renderInputQuizTopic.addEventListener('change', (event) => {
+renderInputQuizTopic.addEventListener("change", (event) => {
   const selectedTopic = event.target.value;
   const categoryCodeValue = categoryCode[selectedTopic];
-  code = categoryCodeValue
+  code = categoryCodeValue;
   // console.log(selectedTopic, categoryCodeValue, code)
-  fetchingData()
-})
+  fetchingData();
+});
 renderInputQuizTopic.innerHTML = `
     <label for="inputQuizTopic">Choose a topic:</label>
     <select name="topics" id="inputQuizTopic">
@@ -217,8 +227,7 @@ renderInputQuizTopic.innerHTML = `
       <option value="ScienceandNature">Science and Nature</option>
       <option value="Gadgets">Gadgets</option>
     </select>
-  `
-
+  `;
 
 const renderName = document.getElementById("player");
 
@@ -226,7 +235,7 @@ function onChangeName(event, index) {
   players[index].name = event.target.value;
   renderName.textContent = players.map((player) => player.name).join(", ");
   player1.textContent = players[0].name;
-  player2.textContent = players[1].name
+  player2.textContent = players[1].name;
 }
 
 const renderInputName = document.getElementById("inputName");
@@ -247,7 +256,6 @@ renderInputName.innerHTML = players
 document.addEventListener("DOMContentLoaded", () => {
   const homeContainer = document.querySelector(".home-container");
   const quizContainer = document.querySelector(".quiz-container");
-  
 
   document.querySelectorAll(".home-container button").forEach((button) => {
     button.addEventListener("click", () => {
@@ -255,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
       playerSpan.textContent = `You are ${playerName}`;
       homeContainer.style.display = "none";
       quizContainer.style.display = "flex";
-      startTimer()
+      startTimer();
     });
   });
 });
