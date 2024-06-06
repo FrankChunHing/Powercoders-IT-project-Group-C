@@ -1,7 +1,7 @@
 const categoryCode = {
-  "General Knowledge": 9,
   "Computer": 18,
-  "Science and Nature": 17,
+  "GeneralKnowledge": 9,
+  "ScienceandNature": 17,
   "Gadgets": 30,
 };
 
@@ -15,7 +15,7 @@ const root = document.getElementById("root");
 const playerSpan = document.getElementById("player");
 const player1 = document.querySelector(".player-1")
 const player2 = document.querySelector(".player-2")
-
+let code = 18
 
 const players = [
   { name: "Player1", score: 0 },
@@ -25,7 +25,7 @@ const players = [
 async function fetchingData() {
   try {
     const response = await fetch(
-      `https://opentdb.com/api.php?amount=10&category=18&type=multiple`
+      `https://opentdb.com/api.php?amount=10&category=${code}&type=multiple`
     );
     const data = await response.json();
 
@@ -45,8 +45,32 @@ async function fetchingData() {
     renderHTML(num);
   } catch (error) {
     console.error("Cannot connect to API server :", error);
+    backupFetch()
   }
 }
+
+async function backupFetch(){
+  console.log("firing backup")
+  try {
+    const res = await fetch(`https://the-trivia-api.com/v2/questions`)
+    const data = await res.json();
+    console.log(data)
+    const handledData = data.map((item, index) => {
+    return {
+      id: index,
+      question: item.question.text,
+      answers: [...item.incorrectAnswers, item.correctAnswer],
+      correct_answer: item.correctAnswer,
+    }
+    
+  })
+  fetchedData = handledData;
+  renderHTML(num);
+} catch(error) {
+  console.error("Cannot connect to the backup API server :", error);
+}
+}
+
 
 function renderCharactor(str) {
   return str
@@ -175,6 +199,26 @@ function startTimer() {
     }
   }, 1000);
 }
+
+
+const renderInputQuizTopic = document.getElementById("inputTopic");
+renderInputQuizTopic.addEventListener('change', (event) => {
+  const selectedTopic = event.target.value;
+  const categoryCodeValue = categoryCode[selectedTopic];
+  code = categoryCodeValue
+  // console.log(selectedTopic, categoryCodeValue, code)
+  fetchingData()
+})
+renderInputQuizTopic.innerHTML = `
+    <label for="inputQuizTopic">Choose a topic:</label>
+    <select name="topics" id="inputQuizTopic">
+      <option value="Computer">Computer</option>
+      <option value="GeneralKnowledge">General Knowledge</option>
+      <option value="ScienceandNature">Science and Nature</option>
+      <option value="Gadgets">Gadgets</option>
+    </select>
+  `
+
 
 const renderName = document.getElementById("player");
 
