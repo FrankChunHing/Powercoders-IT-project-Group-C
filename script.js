@@ -45,8 +45,32 @@ async function fetchingData() {
     renderHTML(num);
   } catch (error) {
     console.error("Cannot connect to API server :", error);
+    backupFetch()
   }
 }
+
+async function backupFetch(){
+  console.log("firing backup")
+  try {
+    const res = await fetch(`https://the-trivia-api.com/v2/questions`)
+    const data = await res.json();
+    console.log(data)
+    const handledData = data.map((item, index) => {
+    return {
+      id: index,
+      question: item.question.text,
+      answers: [...item.incorrectAnswers, item.correctAnswer],
+      correct_answer: item.correctAnswer,
+    }
+    
+  })
+  fetchedData = handledData;
+  renderHTML(num);
+} catch(error) {
+  console.error("Cannot connect to the backup API server :", error);
+}
+}
+
 
 function renderCharactor(str) {
   return str
